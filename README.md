@@ -12,6 +12,29 @@ MDS-680A 传感器 ──RS485/Modbus──▶ ESP32-C5 采集端 ──WiFi(TCP
 - **上位机**：PyQt5 + QtWebEngine 内嵌 HTML/JS 页面，数据通过 `window.bridge` 桥接注入；离线运行，不联网。
 - **EIS 反演**：导入阻抗谱 xlsx 后，由纯 Python Transformer（`上位机/eis_model.py`）逐组推理介损、酸值与老化天数，权重随程序分发。
 
+## 实物与界面预览
+
+### 硬件
+
+| 硬件全景 | 采集端主板 | 装入外壳 |
+|:---:|:---:|:---:|
+| ![硬件全景](photo/hardware_overview.jpg) | ![采集端主板](photo/pcb_top.jpg) | ![装入外壳](photo/device_enclosed.jpg) |
+| HOTA 充电器 + 锂电池 + ESP32-C5 采集板 + MDS-680A 传感器 | ESP32-C5 + MAX485 + 天线 + 接线端子 | 白色外壳，状态指示灯 |
+
+### 上位机界面
+
+| 实时监测（单组 EIS） | 实时监测（9 组博德图） | 实时监测（9 组 Nyquist） |
+|:---:|:---:|:---:|
+| ![单组博德图](photo/ui_monitor_bode_single.png) | ![9组博德图](photo/ui_monitor_bode_9sets.png) | ![Nyquist图](photo/ui_monitor_nyquist_9sets.png) |
+
+| 设备匹配 | 历史数据（正常） | 历史数据（原始收发） |
+|:---:|:---:|:---:|
+| ![设备匹配](photo/ui_device_match.png) | ![历史数据](photo/ui_history_normal.png) | ![原始收发](photo/ui_history_raw.png) |
+
+| 设置 | 关于 |
+|:---:|:---:|
+| ![设置](photo/ui_settings.png) | ![关于](photo/ui_about.png) |
+
 ## 目录结构
 
 ```
