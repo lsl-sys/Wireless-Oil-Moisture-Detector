@@ -1,0 +1,42 @@
+# ============================================================
+# Wireless Oil Moisture Detector — .gitignore
+# ============================================================
+
+# ---------- PlatformIO（固件构建产物） ----------
+.pio/
+.cache/
+.dummy
+compile_commands.json
+firmware/.vscode/
+
+# ---------- PyInstaller（上位机打包产物） ----------
+上位机/build/
+上位机/dist/
+上位机/*.spec
+上位机/app.ico
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+
+# ---------- EIS 模型训练产物 ----------
+# 训练数据集与产出的图不入库；最终权重已放在 上位机/ 目录
+eis_model/data/
+eis_model/out/
+
+# ---------- IDE / 系统 ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ---------- 临时文件 ----------
+*.bak
+*.tmp
+*.log

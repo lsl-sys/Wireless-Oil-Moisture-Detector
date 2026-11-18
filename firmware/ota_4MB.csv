@@ -1,0 +1,9 @@
+# 4MB dual-OTA partition table for ESP32-C5
+# bootloader 0x0-0x8FFF (36KB), partition table 0x8000-0x8FFF, app starts at 0x10000
+# ota0/ota1 each 0x140000 = 1.25MB, littlefs 0x170000 ~ 1.44MB, fits 4MB flash
+# current firmware ~1.13MB < 1.25MB, enough headroom
+nvs,      data,  nvs,       0x9000,  0x5000,
+otadata,  data,  ota,       0xe000,  0x2000,
+ota0,     app,   ota_0,     0x10000, 0x140000,
+ota1,     app,   ota_1,     0x150000,0x140000,
+littlefs, data,  littlefs,  0x290000,0x170000,

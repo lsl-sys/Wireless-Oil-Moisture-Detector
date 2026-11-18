@@ -1,0 +1,38 @@
+# =============================================================================
+# ESP32-C5 lwIP/WiFi custom_sdkconfig — 16K 窗口 / BA16 / AMPDU
+# -----------------------------------------------------------------------------
+# 来源：自研 DAPLink RadioLink WiFi 吞吐优化报告（2026-10-14）
+# 基线预编译库：TCP_SND_BUF=5744 / TCP_WND=5760 / WiFi BA_WIN=6 → 吞吐 ~900 KB/s
+# 16K 甜点：
+#   · TCP 窗口 16384 / MSS 1440 → 单流 TCP 吞吐从 ~900 KB/s 升到 ~1.7 MB/s
+#   · WiFi DYNAMIC BUF 16 / BA_WIN 16 / AMPDU TX+RX → 零丢帧
+#   · 32K 窗口失败：RX 负载下 heap 跌到 1.5KB，WiFi 收发停滞 → 回退 16K
+#   · 24K 窗口 framed 卡死 → 回退 16K
+# heap 健康：idle 53-58KB，负载底 ~36KB（与 baseline 相当）
+# =============================================================================
+
+# ---- lwIP TCP ----
+CONFIG_LWIP_TCP_SND_BUF_DEFAULT=16384
+CONFIG_LWIP_TCP_WND_DEFAULT=16384
+CONFIG_LWIP_TCP_RECVMBOX_SIZE=32
+CONFIG_LWIP_TCPIP_RECVMBOX_SIZE=32
+CONFIG_LWIP_TCP_MSS=1440
+
+# ---- WiFi 缓冲区 ----
+# 约束：RX_BA_WIN ≤ DYNAMIC_RX_BUFFER_NUM 且 2*STATIC_RX_BUFFER_NUM ≥ RX_BA_WIN
+CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER_NUM=16
+CONFIG_ESP_WIFI_DYNAMIC_RX_BUFFER_NUM=16
+CONFIG_ESP_WIFI_STATIC_RX_BUFFER_NUM=8
+
+# ---- WiFi AMPDU ----
+CONFIG_ESP_WIFI_AMPDU_TX_ENABLED=y
+CONFIG_ESP_WIFI_AMPDU_RX_ENABLED=y
+CONFIG_ESP_WIFI_TX_BA_WIN=16
+CONFIG_ESP_WIFI_RX_BA_WIN=16
+
+# ---- WiFi IRAM 优化 ----
+CONFIG_ESP_WIFI_IRAM_OPT=y
+CONFIG_ESP_WIFI_RX_IRAM_OPT=y
+
+# ---- 构建路径（空格路径兼容）----
+CONFIG_COMPILER_HIDE_PATHS_MACROS=n
